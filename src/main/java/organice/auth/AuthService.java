@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import insper.store.account.AccountController;
-import insper.store.account.AccountIn;
-import insper.store.account.AccountOut;
-import insper.store.account.LoginIn;
+import organice.account.AccountController;
+import organice.account.AccountIn;
+import organice.account.AccountOut;
+import organice.account.LoginIn;
 
 @Service
 public class AuthService {
