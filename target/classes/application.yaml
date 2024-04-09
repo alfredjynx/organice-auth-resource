@@ -2,6 +2,12 @@ spring:
   application:
     name: organice-auth
 
+springdoc:
+  api-docs:
+    path: /auth/v3/api-docs
+  swagger-ui:
+    path: /auth/swagger-ui.html
+
 eureka:
   client:
     register-with-eureka: true
