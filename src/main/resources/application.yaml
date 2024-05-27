@@ -42,3 +42,14 @@ management:
       base-path: /auth/actuator
       exposure:
         include: [ 'prometheus' ]
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      Register-CB:
+        minimumNumberOfCalls: 5
+        slidingWindowSize: 10
+      Authenticate-CB:
+        minimumNumberOfCalls: 5
+        slidingWindowSize: 10

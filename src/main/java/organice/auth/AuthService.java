@@ -1,9 +1,13 @@
 package organice.auth;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import organice.account.AccountController;
 import organice.account.AccountIn;
 import organice.account.AccountOut;
@@ -18,6 +22,7 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
+    @CircuitBreaker(name="Register-CB", fallbackMethod = "RegisterFallback")
     public String register(Register in) {
         final String password = in.password().trim();
         if (null == password || password.isEmpty()) throw new IllegalArgumentException("Password is required");
@@ -34,6 +39,12 @@ public class AuthService {
         return response.getBody().id();
     }
 
+    public String RegisterFallback(RegisterIn in){
+
+        return "";
+    }
+
+    @CircuitBreaker(name="Authenticate-CB", fallbackMethod = "AuthenticateFallback")
     public LoginOut authenticate(String email, String password) {
         ResponseEntity<AccountOut> response = accountController.login(LoginIn.builder()
             .email(email)
@@ -51,6 +62,11 @@ public class AuthService {
             .token(token)
             .build();
     }
+
+    public LoginOut AuthenticateFallback(String email, String password){
+        return new LoginOut("");
+    }
+    
 
     public Token solve(String token) {
         return jwtService.getToken(token);
